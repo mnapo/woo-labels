@@ -8,15 +8,9 @@ import PrintButton from "@/components/editor/PrintButton"
 import { useProducts } from "@/hooks/useProducts";
 
 export default function Home() {
-
-  const [preset, setPreset] =
-    useState(SHEET_PRESETS[0]);
-
-  const {
-    products,
-    loading,
-    error
-  } = useProducts();
+  const appTitle = process.env.NEXT_PUBLIC_APP_TITLE || "Woo Labels";
+  const [preset, setPreset] = useState(SHEET_PRESETS[0]);
+  const { products } = useProducts();
 
   return (
     <main className="
@@ -27,7 +21,7 @@ export default function Home() {
 
       <div className="no-print">
         <h1 className="text-3xl font-bold">
-          Woo Labels
+          {appTitle}
         </h1>
 
         <SheetSelector
