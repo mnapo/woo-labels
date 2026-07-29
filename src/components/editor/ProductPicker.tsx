@@ -2,23 +2,27 @@
 
 import { useState } from "react";
 import { Product } from "@/types/product";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useProducts } from "@/hooks/useProducts";
 
 interface Props {
-  products: Product[];
   onSelect: (product: Product) => void;
 }
 
 export default function ProductPicker({
-  products,
   onSelect,
 }: Props) {
   const [query, setQuery] = useState("");
 
-  const filteredProducts = products.filter((product) =>
-    product.name
-      .toLowerCase()
-      .includes(query.toLowerCase())
+  const debouncedQuery = useDebounce(
+    query,
+    300
   );
+
+  const {
+    products,
+    loading,
+  } = useProducts(debouncedQuery);
 
   return (
     <div
@@ -36,7 +40,9 @@ export default function ProductPicker({
     >
       <input
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={(e) =>
+          setQuery(e.target.value)
+        }
         placeholder="Buscar producto..."
         className="
           w-full
@@ -48,36 +54,46 @@ export default function ProductPicker({
         "
       />
 
-      <div className="max-h-60 overflow-y-auto space-y-1">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => (
-            <button
-              key={product.id}
-              onClick={() => onSelect(product)}
-              className="
-                w-full
-                text-left
-                rounded
-                px-2
-                py-1
-                hover:bg-gray-100
-              "
-            >
-              <div className="text-sm">
-                {product.name}
-              </div>
+      {loading && (
+        <div className="text-sm text-gray-500">
+          Buscando...
+        </div>
+      )}
 
-              <div className="text-xs text-gray-500">
-                ${product.price}
-              </div>
-            </button>
-          ))
-        ) : (
-          <div className="text-sm text-gray-500 p-2">
-            Sin resultados
-          </div>
-        )}
-      </div>
+      {!loading && (
+        <div className="max-h-60 overflow-y-auto space-y-1">
+          {products.length > 0 ? (
+            products.map((product) => (
+              <button
+                key={product.id}
+                onClick={() =>
+                  onSelect(product)
+                }
+                className="
+                  w-full
+                  text-left
+                  rounded
+                  px-2
+                  py-1
+                  hover:bg-gray-100
+                "
+              >
+                <div className="text-sm">
+                  {product.name}
+                </div>
+
+                <div className="text-xs text-gray-500">
+                  ${product.price}
+                </div>
+              </button>
+            ))
+          ) : (
+            <div className="text-sm text-gray-500">
+              Sin resultados
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
