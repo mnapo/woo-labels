@@ -24,9 +24,7 @@ export function useProducts(query = "") {
         );
 
         if (!response.ok) {
-          throw new Error(
-            "Failed to fetch products"
-          );
+          throw new Error("Failed to fetch products");
         }
 
         const data = await response.json();
@@ -44,6 +42,7 @@ export function useProducts(query = "") {
     }
 
     fetchProducts();
+
   }, [query]);
 
   return {

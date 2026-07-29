@@ -62,7 +62,9 @@ export async function getWooProducts(
       })),
     ];
 
-    hasMore = data.length === 100;
+    if (!query) {
+      break;
+    }
     page++;
   }
 
