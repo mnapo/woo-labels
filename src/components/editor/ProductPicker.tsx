@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { Search } from "lucide-react";
+
 import { Product } from "@/types/product";
-import { useDebounce } from "@/hooks/useDebounce";
 import { useProducts } from "@/hooks/useProducts";
 
 interface Props {
@@ -12,17 +13,16 @@ interface Props {
 export default function ProductPicker({
   onSelect,
 }: Props) {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] =
+    useState("");
 
-  const debouncedQuery = useDebounce(
-    query,
-    300
-  );
+  const [search, setSearch] =
+    useState("");
 
   const {
     products,
     loading,
-  } = useProducts(debouncedQuery);
+  } = useProducts(search);
 
   return (
     <div
@@ -38,21 +38,40 @@ export default function ProductPicker({
         p-2
       "
     >
-      <input
-        value={query}
-        onChange={(e) =>
-          setQuery(e.target.value)
-        }
-        placeholder="Buscar producto..."
-        className="
-          w-full
-          border
-          rounded
-          px-2
-          py-1
-          mb-2
-        "
-      />
+      <div className="flex gap-2 mb-2">
+        <input
+          value={query}
+          onChange={(e) =>
+            setQuery(e.target.value)
+          }
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              setSearch(query);
+            }
+          }}
+          placeholder="Buscar producto..."
+          className="
+            flex-1
+            border
+            rounded
+            px-2
+            py-1
+          "
+        />
+
+        <button
+          onClick={() =>
+            setSearch(query)
+          }
+          className="
+            border
+            rounded
+            px-2
+          "
+        >
+          <Search size={16} />
+        </button>
+      </div>
 
       {loading && (
         <div className="text-sm text-gray-500">
@@ -61,7 +80,13 @@ export default function ProductPicker({
       )}
 
       {!loading && (
-        <div className="max-h-60 overflow-y-auto space-y-1">
+        <div
+          className="
+            max-h-60
+            overflow-y-auto
+            space-y-1
+          "
+        >
           {products.length > 0 ? (
             products.map((product) => (
               <button
