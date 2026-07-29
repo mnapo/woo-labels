@@ -10,9 +10,17 @@ export async function GET(
   const query =
     searchParams.get("q") ?? "";
 
+  const limit =
+    Number(
+      searchParams.get("limit") ?? "10"
+    );
+
   try {
     const products =
-      await getWooProducts(query);
+      await getWooProducts(
+        query,
+        limit
+      );
 
     return NextResponse.json(products);
   } catch (error) {
