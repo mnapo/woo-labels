@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { SheetPreset, Cell } from "@/types/sheet";
 import LabelCell from "./editor/LabelCell";
 import { Product } from "@/types/product";
-
+import { MOCK_PRODUCTS } from "@/lib/products";
 
 interface Props {
   preset: SheetPreset;
@@ -68,29 +68,16 @@ export default function LabelGrid({
 
     {cells.map(cell => (
         <LabelCell
-            key={cell.id}
-            product={cell.product}
-
-            open={
-            activeCell === cell.id
-            }
-
-            onOpen={() =>
-            setActiveCell(cell.id)
-            }
-
-            onClose={() =>
-            setActiveCell(null)
-            }
-
-            onSelectProduct={(product) => {
-            updateCell(
-                cell.id,
-                product
-            );
-
+        key={cell.id}
+        product={cell.product}
+        products={MOCK_PRODUCTS}
+        open={activeCell === cell.id}
+        onOpen={() => setActiveCell(cell.id)}
+        onClose={() => setActiveCell(null)}
+        onSelectProduct={(product) => {
+            updateCell(cell.id, product);
             setActiveCell(null);
-            }}
+        }}
         />
     ))}
 
