@@ -26,9 +26,17 @@ export default function Home() {
         onChange={setPreset}
       />
 
-      <LabelGrid
-        preset={preset}
-      />
+      <div className="
+        bg-white
+        rounded-lg
+        shadow
+        p-8
+        border
+      ">
+        <LabelGrid
+          preset={preset}
+        />
+      </div>
 
     </main>
   );
