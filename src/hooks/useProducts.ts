@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Product } from "@/types/product";
 
-export function useProducts() {
+export function useProducts(query = "") {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -11,10 +11,22 @@ export function useProducts() {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const response = await fetch("/api/products");
+        setLoading(true);
+
+        const params = new URLSearchParams();
+
+        if (query) {
+          params.set("q", query);
+        }
+
+        const response = await fetch(
+          `/api/products?${params.toString()}`
+        );
 
         if (!response.ok) {
-          throw new Error("Failed to fetch products");
+          throw new Error(
+            "Failed to fetch products"
+          );
         }
 
         const data = await response.json();
@@ -32,7 +44,7 @@ export function useProducts() {
     }
 
     fetchProducts();
-  }, []);
+  }, [query]);
 
   return {
     products,
