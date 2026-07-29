@@ -8,7 +8,6 @@ import { Product } from "@/types/product";
 
 interface Props {
   product?: Product;
-  products: Product[];
   open: boolean;
   onOpen: () => void;
   onClose: () => void;
@@ -17,7 +16,6 @@ interface Props {
 
 export default function LabelCell({
   product,
-  products,
   open,
   onOpen,
   onClose,
@@ -87,7 +85,6 @@ export default function LabelCell({
 
         {open && (
         <ProductPicker
-            products={products}
             onSelect={onSelectProduct}
         />
         )}

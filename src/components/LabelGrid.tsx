@@ -12,7 +12,6 @@ interface Props {
 
 export default function LabelGrid({
   preset,
-  products
 }: Props) {
 
   const [cells, setCells] =
@@ -70,7 +69,6 @@ export default function LabelGrid({
         <LabelCell
         key={cell.id}
         product={cell.product}
-        products={products}
         open={activeCell === cell.id}
         onOpen={() => setActiveCell(cell.id)}
         onClose={() => setActiveCell(null)}
