@@ -4,6 +4,7 @@ import { useState } from "react";
 import { SHEET_PRESETS } from "@/lib/presets";
 import SheetSelector from "@/components/SheetSelector";
 import LabelGrid from "@/components/LabelGrid";
+import PrintButton from "@/components/editor/PrintButton"
 import { useProducts } from "@/hooks/useProducts";
 
 export default function Home() {
@@ -24,15 +25,19 @@ export default function Home() {
       space-y-8
     ">
 
-      <h1 className="text-3xl font-bold">
-        Woo Labels
-      </h1>
+      <div className="no-print">
+        <h1 className="text-3xl font-bold">
+          Woo Labels
+        </h1>
 
-      <SheetSelector
-        value={preset}
-        onChange={setPreset}
-      />
+        <SheetSelector
+          value={preset}
+          onChange={setPreset}
+        />
 
+        <PrintButton />
+      </div>
+      
       <div className="w-full flex justify-center">
         <div className="w-full max-w-5xl">
               <LabelGrid
