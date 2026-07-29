@@ -8,20 +8,16 @@ import { Product } from "@/types/product";
 
 interface Props {
   product?: Product;
-
+  products: Product[];
   open: boolean;
-
   onOpen: () => void;
-
   onClose: () => void;
-
-  onSelectProduct:
-    (product: Product) => void;
+  onSelectProduct: (product: Product) => void;
 }
-
 
 export default function LabelCell({
   product,
+  products,
   open,
   onOpen,
   onClose,
@@ -89,13 +85,12 @@ export default function LabelCell({
       </button>
 
 
-      {open && (
+        {open && (
         <ProductPicker
-          onSelect={(product)=>{
-            onSelectProduct(product);
-          }}
+            products={products}
+            onSelect={onSelectProduct}
         />
-      )}
+        )}
 
     </div>
   );
