@@ -17,7 +17,8 @@ export default function LabelGrid({
 
   const [cells, setCells] =
     useState<Cell[]>([]);
-
+  const [activeCell, setActiveCell] =
+    useState<number | null>(null);
 
   useEffect(()=>{
 
@@ -65,19 +66,33 @@ export default function LabelGrid({
       }}
     >
 
-      {cells.map(cell=>(
+    {cells.map(cell => (
         <LabelCell
-          key={cell.id}
-          product={cell.product}
-          onSelectProduct={
-            (product)=>
-              updateCell(
+            key={cell.id}
+            product={cell.product}
+
+            open={
+            activeCell === cell.id
+            }
+
+            onOpen={() =>
+            setActiveCell(cell.id)
+            }
+
+            onClose={() =>
+            setActiveCell(null)
+            }
+
+            onSelectProduct={(product) => {
+            updateCell(
                 cell.id,
                 product
-              )
-          }
+            );
+
+            setActiveCell(null);
+            }}
         />
-      ))}
+    ))}
 
     </div>
   );

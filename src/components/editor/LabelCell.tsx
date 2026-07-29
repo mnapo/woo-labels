@@ -8,27 +8,34 @@ import { Product } from "@/types/product";
 
 interface Props {
   product?: Product;
-  onSelectProduct: (
-    product: Product
-  ) => void;
+
+  open: boolean;
+
+  onOpen: () => void;
+
+  onClose: () => void;
+
+  onSelectProduct:
+    (product: Product) => void;
 }
 
 
 export default function LabelCell({
   product,
+  open,
+  onOpen,
+  onClose,
   onSelectProduct,
 }: Props) {
-
-  const [open, setOpen] =
-    useState(false);
-
 
   return (
     <div className="relative">
 
       <button
         onClick={() =>
-          setOpen(!open)
+        open
+            ? onClose()
+            : onOpen()
         }
         className="
           aspect-[2/1]
@@ -86,7 +93,6 @@ export default function LabelCell({
         <ProductPicker
           onSelect={(product)=>{
             onSelectProduct(product);
-            setOpen(false);
           }}
         />
       )}
