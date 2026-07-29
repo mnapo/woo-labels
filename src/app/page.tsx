@@ -33,17 +33,13 @@ export default function Home() {
         onChange={setPreset}
       />
 
-      <div className="
-        bg-white
-        rounded-lg
-        shadow
-        p-8
-        border
-      ">
-        <LabelGrid
-          preset={preset}
-          products={products}
-        />
+      <div className="w-full flex justify-center">
+        <div className="w-full max-w-5xl">
+              <LabelGrid
+                preset={preset}
+                products={products}
+              />
+            </div>
       </div>
 
     </main>
