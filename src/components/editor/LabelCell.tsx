@@ -1,8 +1,20 @@
+"use client";
+
+import { Plus } from "lucide-react";
+
+type Product = {
+  id: number;
+  name: string;
+  price: string;
+};
+
 interface Props {
+  product?: Product;
   onClick: () => void;
 }
 
 export default function LabelCell({
+  product,
   onClick,
 }: Props) {
   return (
@@ -19,15 +31,42 @@ export default function LabelCell({
         items-center
         justify-center
         gap-1
+        p-2
+        text-center
       "
     >
-      <span className="text-xl">
-        +
-      </span>
+      {product ? (
+        <>
+          <span className="
+            text-sm
+            font-medium
+            line-clamp-2
+          ">
+            {product.name}
+          </span>
 
-      <span className="text-xs text-gray-500">
-        Agregar producto
-      </span>
+          <span className="
+            text-xs
+            text-gray-600
+          ">
+            ${product.price}
+          </span>
+        </>
+      ) : (
+        <>
+          <Plus
+            size={20}
+            className="text-gray-400"
+          />
+
+          <span className="
+            text-xs
+            text-gray-500
+          ">
+            Agregar producto
+          </span>
+        </>
+      )}
     </button>
   );
 }
