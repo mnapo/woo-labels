@@ -1,3 +1,5 @@
+import { Product } from "./product";
+
 export type SheetPreset = {
   id: string;
   name: string;
@@ -7,4 +9,5 @@ export type SheetPreset = {
 
 export type Cell = {
   id: number;
+  product?: Product;
 };
