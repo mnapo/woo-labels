@@ -23,13 +23,14 @@ export default function Home() {
         <h1 className="text-3xl font-bold">
           {appTitle}
         </h1>
+        <Editor>
+          <SheetSelector
+            value={preset}
+            onChange={setPreset}
+          />
 
-        <SheetSelector
-          value={preset}
-          onChange={setPreset}
-        />
-
-        <PrintButton />
+          <PrintButton />
+        </Editor>
       </div>
       
       <div className="w-full flex justify-center">
