@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { SHEET_PRESETS } from "@/lib/presets";
+import Editor from "@/components/editor/Editor";
 import SheetSelector from "@/components/SheetSelector";
 import LabelGrid from "@/components/LabelGrid";
 import PrintButton from "@/components/editor/PrintButton"
