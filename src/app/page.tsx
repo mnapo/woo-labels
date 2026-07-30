@@ -28,7 +28,7 @@ export default function Home() {
             value={preset}
             onChange={setPreset}
           />
-
+          <div className="mx-4 h-8 w-px bg-gray-300" />
           <PrintButton />
         </Editor>
       </div>
