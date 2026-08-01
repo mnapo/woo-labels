@@ -36,6 +36,7 @@ export default function ProductPicker({
         bg-white
         shadow-lg
         p-2
+        no-print
       "
     >
       <div className="flex gap-2 mb-2">
