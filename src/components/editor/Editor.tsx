@@ -20,7 +20,18 @@ export default function Editor({ preset, setPreset }: Props) {
   const [cells, setCells] = useState<Cell[]>(createCells(preset));
 
   useEffect(() => {
-    setCells(createCells(preset));
+    setCells(current => {
+      const total = preset.rows * preset.cols;
+
+      if (total === current.length) {
+        return current;
+      }
+
+      return Array.from({ length: total }, (_, id) => ({
+        id,
+        product: current[id]?.product,
+      }));
+    });
   }, [preset]);
 
   function assignNextProduct(product: Product) {
