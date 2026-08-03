@@ -58,8 +58,7 @@ return (
         <ProductPicker onSelect={assignNextProduct} />
       </div>
     </div>
-
-    <div className="mt-6 flex justify-center">
+    <div className="print-area">
       <LabelGrid
         preset={preset}
         cells={cells}
