@@ -1,43 +1,23 @@
 "use client";
 
-import { useState } from "react";
-import { Plus } from "lucide-react";
-import ProductPicker from "./ProductPicker";
-import { Product } from "@/types/product";
+import { Trash2 } from "lucide-react";
 
+import { Cell } from "@/types/cell";
 
 interface Props {
-  product?: Product;
-  open: boolean;
-  onOpen: () => void;
-  onClose: () => void;
-  onSelectProduct: (product: Product) => void;
+  cell: Cell;
+  onRemove: (id: number) => void;
 }
 
-export default function LabelCell({
-  product,
-  open,
-  onOpen,
-  onClose,
-  onSelectProduct,
-}: Props) {
-
+export default function LabelCell({ cell, onRemove }: Props) {
   return (
     <div className="relative">
-
-      <button
-        onClick={() =>
-        open
-            ? onClose()
-            : onOpen()
-        }
+      <div
         className="
           aspect-[2/1]
           w-full
           border
           bg-white
-          hover:bg-gray-50
-          transition
           flex
           flex-col
           items-center
@@ -47,48 +27,25 @@ export default function LabelCell({
           text-center
         "
       >
-
-        {product ? (
+        {cell.product ? (
           <>
-            <span className="
-              text-sm
-              font-medium
-            ">
-              {product.name}
+            <span className="text-sm font-medium">
+              {cell.product.name}
             </span>
 
-            <span className="
-              text-xs
-              text-gray-600
-            ">
-              ${product.price}
+            <span className="text-xs text-gray-600">
+              ${cell.product.price}
             </span>
+
+            <button
+              onClick={() => onRemove(cell.id)}
+              className="absolute right-1 top-1 text-gray-400 hover:text-gray-700"
+            >
+              <Trash2 size={14} />
+            </button>
           </>
-        ) : (
-          <>
-            <Plus
-              size={20}
-              className="text-gray-400"
-            />
-
-            <span className="
-              text-xs
-              text-gray-500
-            ">
-              Agregar producto
-            </span>
-          </>
-        )}
-
-      </button>
-
-
-        {open && (
-        <ProductPicker
-            onSelect={onSelectProduct}
-        />
-        )}
-
+        ) : null}
+      </div>
     </div>
   );
 }
