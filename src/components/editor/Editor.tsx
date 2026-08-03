@@ -46,13 +46,21 @@ export default function Editor({ preset }: Props) {
   }
 
   return (
-    <div className="no-print flex justify-center">
+    <div className="no-print">
       <div className="flex flex-col items-center rounded-lg border bg-white px-4 py-3 shadow-sm">
         <ProductPicker onSelect={assignNextProduct} />
 
         <hr className="my-4 w-full" />
 
-        <LabelGrid preset={preset} cells={cells} onRemove={removeProduct} />
+        <Toolbar />
+      </div>
+
+      <div className="mt-6 flex justify-center">
+        <LabelGrid
+          preset={preset}
+          cells={cells}
+          onRemove={removeProduct}
+        />
       </div>
     </div>
   );
