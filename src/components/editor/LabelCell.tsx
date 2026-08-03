@@ -18,15 +18,35 @@ export default function LabelCell({ cell, config, onRemove }: Props) {
     large: "text-xl",
   }[config.fontSize];
 
+  const priceClass = {
+    small: "text-base",
+    medium: "text-xl",
+    large: "text-2xl",
+  }[config.fontSize];
+
   return (
     <div className="relative h-full w-full overflow-hidden border bg-white">
       {cell.product ? (
-        <div className={`flex h-full w-full items-center justify-center gap-2 p-2 ${config.layout === "vertical" ? "flex-col" : "flex-row"}`}>
-          <span className={`break-words text-center font-medium ${fontClass}`}>
+        <div
+          className={`flex h-full w-full items-center justify-center gap-2 p-2 ${
+            config.layout === "vertical"
+              ? "flex-col"
+              : "flex-row"
+          }`}
+        >
+          <span
+            className={`break-words text-center font-medium ${
+              config.layout === "horizontal" ? "flex-[0.4]" : ""
+            } ${fontClass}`}
+          >
             {cell.product.name}
           </span>
 
-          <span className={`break-words text-center font-bold text-gray-700 ${fontClass}`}>
+          <span
+            className={`break-words text-center font-bold text-black ${
+              config.layout === "horizontal" ? "flex-[0.6]" : ""
+            } ${priceClass}`}
+          >
             ${cell.product.price}
           </span>
 
