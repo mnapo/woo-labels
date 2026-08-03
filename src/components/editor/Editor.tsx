@@ -13,6 +13,7 @@ import ProductPicker from "./ProductPicker";
 
 interface Props {
   preset: SheetPreset;
+  setPreset: React.Dispatch<React.SetStateAction<SheetPreset>>;
 }
 
 export default function Editor({ preset }: Props) {
@@ -53,7 +54,7 @@ export default function Editor({ preset }: Props) {
 
         <hr className="my-4 w-full" />
 
-        <Toolbar />
+        <Toolbar value={preset} onChange={setPreset} />
       </div>
 
       <div className="mt-6 flex justify-center">
