@@ -3,7 +3,7 @@
 import { Trash2 } from "lucide-react";
 
 import { Cell } from "@/types/cell";
-// import { LabelConfig } from "./Editor";
+import { LabelConfig } from "./Editor";
 
 interface Props {
   cell: Cell;
