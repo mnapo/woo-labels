@@ -1,84 +1,46 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { SheetPreset, Cell } from "@/types/sheet";
-import LabelCell from "./editor/LabelCell";
-import { Product } from "@/types/product";
+import { Cell, SheetPreset } from "@/types/sheet";
+import LabelCell from "./LabelCell";
 
 interface Props {
   preset: SheetPreset;
-  products: Product[];
+  cells: Cell[];
+  setCells: React.Dispatch<React.SetStateAction<Cell[]>>;
 }
 
-export default function LabelGrid({
-  preset,
-}: Props) {
+export default function LabelGrid({ preset, cells, setCells }: Props) {
 
-  const [cells, setCells] =
-    useState<Cell[]>([]);
-  const [activeCell, setActiveCell] =
-    useState<number | null>(null);
+  const [activeCell, setActiveCell] = React.useState<number | null>(null);
 
-  useEffect(()=>{
-
-    const total =
-      preset.rows * preset.cols;
-
-    setCells(
-      Array.from(
-        {length: total},
-        (_,index)=>({
-          id:index
-        })
+  function updateCell(id: number, product: Cell["product"]) {
+    setCells(current =>
+      current.map(cell =>
+        cell.id === id
+          ? { ...cell, product }
+          : cell
       )
     );
-
-  },[preset]);
-
-
-  function updateCell(
-    id:number,
-    product:Product
-  ){
-
-    setCells(
-      current =>
-        current.map(cell =>
-          cell.id === id
-          ? {
-              ...cell,
-              product
-            }
-          : cell
-        )
-    );
-
   }
-
 
   return (
     <div
       className="grid w-full max-w-4xl"
-      style={{
-        gridTemplateColumns:
-          `repeat(${preset.cols},1fr)`
-      }}
+      style={{ gridTemplateColumns: `repeat(${preset.cols}, 1fr)` }}
     >
-
-    {cells.map(cell => (
+      {cells.map(cell => (
         <LabelCell
-        key={cell.id}
-        product={cell.product}
-        open={activeCell === cell.id}
-        onOpen={() => setActiveCell(cell.id)}
-        onClose={() => setActiveCell(null)}
-        onSelectProduct={(product) => {
+          key={cell.id}
+          product={cell.product}
+          open={activeCell === cell.id}
+          onOpen={() => setActiveCell(cell.id)}
+          onClose={() => setActiveCell(null)}
+          onSelectProduct={(product) => {
             updateCell(cell.id, product);
             setActiveCell(null);
-        }}
+          }}
         />
-    ))}
-
+      ))}
     </div>
   );
 }
