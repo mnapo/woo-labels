@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Search } from "lucide-react";
+import { ChevronDown, ChevronUp, Search } from "lucide-react";
 
 import { Product } from "@/types/product";
 import { useProducts } from "@/hooks/useProducts";
@@ -24,22 +24,26 @@ export default function ProductPicker({ onSelect }: Props) {
 
   function handleSearch() {
     setSearch(query);
-    setOpen(true);
   }
 
   return (
-    <div className="relative w-full max-w-md no-print">
+    <div className="relative no-print">
       <button
         onClick={() => setOpen(value => !value)}
-        className="flex w-full items-center gap-2 rounded-md border bg-white px-3 py-2 text-left text-sm shadow-sm hover:bg-gray-50"
+        className="flex items-center gap-2 rounded-md bg-black px-4 py-2 text-sm text-white hover:bg-gray-800"
       >
-        <Search size={16} />
-        Buscar producto...
+        + Agregar producto
+
+        {open ? (
+          <ChevronUp size={16} />
+        ) : (
+          <ChevronDown size={16} />
+        )}
       </button>
 
       {open && (
-        <div className="absolute z-20 mt-2 w-full rounded-md border bg-white p-2 shadow-lg">
-          <div className="mb-2 flex gap-2">
+        <div className="absolute left-0 z-20 mt-2 w-72 rounded-md border bg-white p-3 shadow-lg">
+          <div className="flex gap-2">
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -49,7 +53,7 @@ export default function ProductPicker({ onSelect }: Props) {
                 }
               }}
               placeholder="Buscar producto..."
-              className="flex-1 rounded border px-2 py-1"
+              className="flex-1 rounded border px-2 py-1 text-sm"
             />
 
             <button
@@ -60,37 +64,39 @@ export default function ProductPicker({ onSelect }: Props) {
             </button>
           </div>
 
-          {loading && (
-            <div className="text-sm text-gray-500">
-              Buscando...
-            </div>
-          )}
+          <div className="mt-2">
+            {loading && (
+              <div className="text-sm text-gray-500">
+                Buscando...
+              </div>
+            )}
 
-          {!loading && (
-            <div className="max-h-60 space-y-1 overflow-y-auto">
-              {products.length > 0 ? (
-                products.map(product => (
-                  <button
-                    key={product.id}
-                    onClick={() => handleSelect(product)}
-                    className="w-full rounded px-2 py-1 text-left hover:bg-gray-100"
-                  >
-                    <div className="text-sm">
-                      {product.name}
-                    </div>
+            {!loading && (
+              <div className="max-h-60 space-y-1 overflow-y-auto">
+                {products.length > 0 ? (
+                  products.map(product => (
+                    <button
+                      key={product.id}
+                      onClick={() => handleSelect(product)}
+                      className="w-full rounded px-2 py-1 text-left hover:bg-gray-100"
+                    >
+                      <div className="text-sm">
+                        {product.name}
+                      </div>
 
-                    <div className="text-xs text-gray-500">
-                      ${product.price}
-                    </div>
-                  </button>
-                ))
-              ) : (
-                <div className="text-sm text-gray-500">
-                  Sin resultados
-                </div>
-              )}
-            </div>
-          )}
+                      <div className="text-xs text-gray-500">
+                        ${product.price}
+                      </div>
+                    </button>
+                  ))
+                ) : (
+                  <div className="text-sm text-gray-500">
+                    Sin resultados
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>
