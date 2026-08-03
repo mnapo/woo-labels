@@ -68,8 +68,12 @@ export default function Editor({ preset, setPreset }: Props) {
         </div>
       </div>
 
-      <div className="print-area">
-        <LabelGrid preset={preset} cells={cells} onRemove={removeProduct} />
+      <div className="print-area h-screen">
+        <LabelGrid
+          preset={preset}
+          cells={cells}
+          onRemove={removeProduct}
+        />
       </div>
     </>
   );
