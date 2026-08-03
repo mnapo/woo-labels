@@ -14,11 +14,11 @@ export default function LabelCell({ cell, onRemove }: Props) {
     <div className="relative h-full w-full border bg-white overflow-hidden">
       {cell.product ? (
         <div className="flex h-full w-full flex-col items-center justify-center gap-1 p-2 text-center">
-          <span className="w-full truncate text-sm font-medium">
+          <span className="w-full break-words text-sm font-medium">
             {cell.product.name}
           </span>
 
-          <span className="w-full truncate text-lg font-bold text-gray-700">
+          <span className="w-full break-words text-lg font-bold text-gray-700">
             ${cell.product.price}
           </span>
 
