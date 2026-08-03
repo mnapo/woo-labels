@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import { Cell } from "@/types/cell";
 import { Product } from "@/types/product";
@@ -13,10 +13,10 @@ import ProductPicker from "./ProductPicker";
 
 interface Props {
   preset: SheetPreset;
-  setPreset: React.Dispatch<React.SetStateAction<SheetPreset>>;
+  setPreset: Dispatch<SetStateAction<SheetPreset>>;
 }
 
-export default function Editor({ preset }: Props) {
+export default function Editor({ preset, setPreset }: Props) {
   const [cells, setCells] = useState<Cell[]>(createCells(preset));
 
   useEffect(() => {
