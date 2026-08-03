@@ -44,7 +44,11 @@ export default function LabelCell({ cell, onRemove }: Props) {
               <Trash2 size={14} />
             </button>
           </>
-        ) : null}
+        ) : (
+          <span className="text-xs text-gray-300">
+            Vacía
+          </span>
+        )}
       </div>
     </div>
   );
