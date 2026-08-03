@@ -27,14 +27,11 @@ export default function Editor({ preset }: Props) {
 
       if (index === -1) return current;
 
-      const next = [...current];
-
-      next[index] = {
-        ...next[index],
-        product,
-      };
-
-      return next;
+      return current.map((cell, i) =>
+        i === index
+          ? { ...cell, product }
+          : cell
+      );
     });
   }
 
