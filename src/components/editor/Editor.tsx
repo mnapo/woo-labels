@@ -7,6 +7,7 @@ import { Product } from "@/types/product";
 import { SheetPreset } from "@/types/sheet";
 import { createCells } from "@/lib/createCells";
 
+import Toolbar from "./ToolBar";
 import LabelGrid from "./LabelGrid";
 import ProductPicker from "./ProductPicker";
 
