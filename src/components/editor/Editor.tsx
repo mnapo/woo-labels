@@ -2,14 +2,14 @@
 
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
+import { createCells } from "@/lib/createCells";
 import { Cell } from "@/types/cell";
 import { Product } from "@/types/product";
 import { SheetPreset } from "@/types/sheet";
-import { createCells } from "@/lib/createCells";
 
-import Toolbar from "./ToolBar";
 import LabelGrid from "./LabelGrid";
 import ProductPicker from "./ProductPicker";
+import ToolBar from "./ToolBar";
 
 interface Props {
   preset: SheetPreset;
@@ -30,9 +30,7 @@ export default function Editor({ preset, setPreset }: Props) {
       if (index === -1) return current;
 
       return current.map((cell, i) =>
-        i === index
-          ? { ...cell, product }
-          : cell
+        i === index ? { ...cell, product } : cell
       );
     });
   }
@@ -47,24 +45,21 @@ export default function Editor({ preset, setPreset }: Props) {
     );
   }
 
-return (
-  <>
-    <div className="no-print">
-      <div className="flex flex-col items-center rounded-lg border bg-white px-4 py-3 shadow-sm">
-        <Toolbar value={preset} onChange={setPreset} />
+  return (
+    <>
+      <div className="no-print">
+        <div className="flex flex-col items-center rounded-lg border bg-white px-4 py-3 shadow-sm">
+          <ToolBar value={preset} onChange={setPreset} />
 
-        <hr className="my-4 w-full" />
+          <hr className="my-4 w-full" />
 
-        <ProductPicker onSelect={assignNextProduct} />
+          <ProductPicker onSelect={assignNextProduct} />
+        </div>
       </div>
-    </div>
-    <div className="print-area">
-      <LabelGrid
-        preset={preset}
-        cells={cells}
-        onRemove={removeProduct}
-      />
-    </div>
-  </>
-);
+
+      <div className="print-area">
+        <LabelGrid preset={preset} cells={cells} onRemove={removeProduct} />
+      </div>
+    </>
+  );
 }
