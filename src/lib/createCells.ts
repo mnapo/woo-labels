@@ -5,7 +5,7 @@ export function createCells(
   preset: SheetPreset
 ): Cell[] {
   return Array.from(
-    { length: preset.rows * preset.columns },
+    { length: preset.rows * preset.cols },
     (_, id) => ({
       id,
     })
