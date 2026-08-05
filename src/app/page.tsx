@@ -10,11 +10,6 @@ export default function Home() {
 
   return (
     <main className="min-h-screen p-8 space-y-8">
-      <div className="no-print">
-        <h1 className="text-3xl font-bold">
-          {appTitle}
-        </h1>
-      </div>
       <Editor preset={preset} setPreset={setPreset} />
     </main>
   );
