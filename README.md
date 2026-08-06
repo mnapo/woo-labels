@@ -15,7 +15,7 @@ pnpm install
 Configure environment variables:
 
 ```env
-NEXT_PUBLIC_APP_TITLE="Woo Labels"
+NEXT_PUBLIC_STORE_NAME="Woo Labels"
 
 WOOCOMMERCE_URL=""
 WOOCOMMERCE_CONSUMER_KEY=""
