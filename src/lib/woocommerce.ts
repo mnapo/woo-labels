@@ -2,6 +2,7 @@ type WooProductResponse = {
   id: number;
   name: string;
   price: string;
+  barcode?: string;
 };
 
 export async function getWooProducts(
