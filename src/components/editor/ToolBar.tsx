@@ -37,8 +37,6 @@ export default function ToolBar({ value, onChange, config, setConfig }: Props) {
         <option value="large">Texto grande</option>
       </select>
 
-      <div className="mx-4 h-8 w-px bg-gray-300" />
-
       <select
         value={config.layout}
         onChange={e =>
@@ -52,6 +50,22 @@ export default function ToolBar({ value, onChange, config, setConfig }: Props) {
         <option value="vertical">Vertical</option>
         <option value="horizontal">Horizontal</option>
       </select>
+
+      <div className="mx-4 h-8 w-px bg-gray-300" />
+
+      <label className="flex items-center gap-2 text-sm">
+        <input
+          type="checkbox"
+          checked={config.showBarcode}
+          onChange={e =>
+            setConfig(current => ({
+              ...current,
+              showBarcode: e.target.checked,
+            }))
+          }
+        />
+        Código de barras
+      </label>
 
       <div className="mx-4 h-8 w-px bg-gray-300" />
 
