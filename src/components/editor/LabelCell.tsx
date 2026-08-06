@@ -50,14 +50,6 @@ export default function LabelCell({ cell, config, onRemove }: Props) {
           >
             ${cell.product.price}
           </span>
-
-          <span
-            className={`break-words text-center font-bold text-black ${
-              config.layout === "horizontal" ? "flex-[0.6]" : ""
-            } ${priceClass}`}
-          >
-            ${cell.product.price}
-          </span>
           
           {config.showBarcode && cell.product.barcode && (
             <Barcode value={cell.product.barcode} />
