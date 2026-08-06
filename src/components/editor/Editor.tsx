@@ -14,6 +14,7 @@ import ToolBar from "./ToolBar";
 export type LabelConfig = {
   fontSize: "small" | "medium" | "large";
   layout: "vertical" | "horizontal";
+  showBarcode: boolean;
 };
 
 interface Props {
@@ -27,6 +28,7 @@ export default function Editor({ preset, setPreset }: Props) {
   const [config, setConfig] = useState<LabelConfig>({
     fontSize: "medium",
     layout: "vertical",
+    showBarcode: true,
   });
 
   useEffect(() => {
