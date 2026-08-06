@@ -61,7 +61,9 @@ export async function getWooProducts(
     (product: any) => ({
       id: product.id,
       name: product.name,
-      price: product.price,
+      price: product.price,,
+      barcode:
+        product.sku || product.global_unique_id || undefined,
     })
   );
 }
