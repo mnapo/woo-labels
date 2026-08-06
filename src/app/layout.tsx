@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "WooLabels",
+  title: process.env.NEXT_PUBLIC_STORE_NAME || "Woo Labels",
   description: "Dynamic label generator for WooCommerce products",
 };
 
