@@ -6,8 +6,8 @@
 
 Add individual label editing.
 
-* Edit label name.
-* Edit label price.
+* Edit label name OK
+* Edit label price OK
 * Preserve WooCommerce product data.
 * Allow custom values per cell.
 
@@ -30,9 +30,9 @@ Add configurable cell padding presets:
 
 Improve horizontal label layout:
 
-* Reduce price column width.
-* Increase price font size.
-* Give more space to product name.
+* Reduce price column width. OK
+* Increase price font size. OK
+* Give more space to product name. OK
 
 ## Editor UX Improvements
 
@@ -80,20 +80,20 @@ Requirements:
 
 ### Dynamic Page Title
 
-Remove dynamic Home heading.
+Remove dynamic Home heading. OK
 
 Use:
 
-* `APP_TITLE` environment variable.
-* Next.js page metadata title.
+* `NEXT_PUBLIC_STORE_NAME` environment variable. OK
+* Next.js page metadata title. OK
 
 ### Custom Favicon
 
-Add custom SVG favicon.
+Add custom SVG favicon. OK 
 
 Options:
 
-* Woo Labels initials.
+* Woo Labels initials <--- selected
 * Printer icon.
 
 ## Future Improvements
@@ -102,4 +102,5 @@ Options:
 * Multiple WooCommerce stores.
 * User accounts.
 * Label history.
-* QR and barcode support.
+* Barcode support OK
+* QR support
