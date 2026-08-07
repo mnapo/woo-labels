@@ -10,4 +10,7 @@ export type SheetPreset = {
 export type Cell = {
   id: number;
   product?: Product;
+
+  customName?: string;
+  customPrice?: string;
 };
