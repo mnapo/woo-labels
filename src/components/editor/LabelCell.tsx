@@ -26,7 +26,7 @@ export default function LabelCell({ cell, config, onRemove }: Props) {
   }[config.fontSize];
 
   return (
-    <div className="relative h-full w-full overflow-hidden border bg-white">
+    <div className="relative h-full w-full overflow-hidden bg-white">
       {cell.product ? (
         <div
           className={`flex h-full w-full items-center justify-center gap-2 p-2 ${
