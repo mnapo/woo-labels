@@ -107,6 +107,7 @@ export default function Editor({ preset, setPreset }: Props) {
           cells={cells}
           config={config}
           onRemove={removeProduct}
+          onUpdate={updateCell}
         />
       </div>
     </>
