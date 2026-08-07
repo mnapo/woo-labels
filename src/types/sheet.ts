@@ -6,11 +6,3 @@ export type SheetPreset = {
   rows: number;
   cols: number;
 };
-
-export type Cell = {
-  id: number;
-  product?: Product;
-
-  customName?: string;
-  customPrice?: string;
-};
