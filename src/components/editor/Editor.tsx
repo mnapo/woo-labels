@@ -66,6 +66,24 @@ export default function Editor({ preset, setPreset }: Props) {
     );
   }
 
+  function updateCell(
+    id: number,
+    customName: string,
+    customPrice: string
+  ) {
+    setCells(current =>
+      current.map(cell =>
+        cell.id === id
+          ? {
+              ...cell,
+              customName: customName || undefined,
+              customPrice: customPrice || undefined,
+            }
+          : cell
+      )
+    );
+  }
+
   return (
     <>
       <div className="no-print sticky top-0 z-20 flex justify-center bg-white/90 py-2 backdrop-blur">
