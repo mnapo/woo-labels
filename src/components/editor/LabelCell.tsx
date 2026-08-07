@@ -1,10 +1,12 @@
 "use client";
 
-import { Trash2 } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
+import { useState } from "react";
 
 import { Cell } from "@/types/cell";
 import { LabelConfig } from "./Editor";
 import Barcode from "./Barcode";
+import CellEditor from "./CellEditor";
 
 interface Props {
   cell: Cell;
@@ -25,9 +27,14 @@ export default function LabelCell({ cell, config, onRemove }: Props) {
     large: "text-2xl",
   }[config.fontSize];
 
+  const [editing, setEditing] = useState(false);
+
+  const name = cell.customName ?? cell.product?.name;
+  const price = cell.customPrice ?? cell.product?.price;
+
   return (
     <div className="relative h-full w-full overflow-hidden bg-white">
-      {cell.product ? (
+      {cell.product && (
         <div
           className={`flex h-full w-full items-center justify-center gap-2 p-2 ${
             config.layout === "vertical"
@@ -40,7 +47,7 @@ export default function LabelCell({ cell, config, onRemove }: Props) {
               config.layout === "horizontal" ? "flex-[0.4]" : ""
             } ${fontClass}`}
           >
-            {cell.product.name}
+            {name}
           </span>
 
           <span
@@ -48,12 +55,28 @@ export default function LabelCell({ cell, config, onRemove }: Props) {
               config.layout === "horizontal" ? "flex-[0.6]" : ""
             } ${priceClass}`}
           >
-            ${cell.product.price}
+            ${price}
           </span>
           
           {config.showBarcode && cell.product.barcode && (
             <Barcode value={cell.product.barcode} />
           )}
+
+          <CellEditor
+            open={editing}
+            name={name ?? ""}
+            price={price ?? ""}
+            onClose={() => setEditing(false)}
+            onSave={() => {
+            }}
+          />
+
+          <button
+            onClick={() => setEditing(true)}
+            className="no-print absolute right-6 top-1 text-gray-400 hover:text-gray-700"
+          >
+            <Pencil size={14} />
+          </button>
 
           <button
             onClick={() => onRemove(cell.id)}
