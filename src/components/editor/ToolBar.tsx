@@ -2,7 +2,7 @@
 
 import { Dispatch, SetStateAction } from "react";
 
-import { LabelConfig } from "./Editor";
+import { LabelConfig } from "@/types/label";
 import { SheetPreset } from "@/types/sheet";
 
 import SheetSelector from "./SheetSelector";
