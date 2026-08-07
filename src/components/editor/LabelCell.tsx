@@ -12,9 +12,14 @@ interface Props {
   cell: Cell;
   config: LabelConfig;
   onRemove: (id: number) => void;
+  onUpdate: (
+    id: number,
+    customName: string,
+    customPrice: string
+  ) => void;
 }
 
-export default function LabelCell({ cell, config, onRemove }: Props) {
+export default function LabelCell({ cell, config, onRemove, onUpdate }: Props) {
   const fontClass = {
     small: "text-sm",
     medium: "text-base",
@@ -67,8 +72,7 @@ export default function LabelCell({ cell, config, onRemove }: Props) {
             name={name ?? ""}
             price={price ?? ""}
             onClose={() => setEditing(false)}
-            onSave={() => {
-            }}
+            onSave={(customName, customPrice) => onUpdate(cell.id, customName, customPrice)}
           />
 
           <button
