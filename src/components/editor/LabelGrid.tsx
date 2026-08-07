@@ -1,6 +1,6 @@
 "use client";
 
-import { LabelConfig } from "./Editor";
+import { LabelConfig } from "@/types/label";
 import { Cell, SheetPreset } from "@/types/sheet";
 
 import LabelCell from "./LabelCell";

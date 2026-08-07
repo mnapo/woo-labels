@@ -6,16 +6,11 @@ import { createCells } from "@/lib/createCells";
 import { Cell } from "@/types/cell";
 import { Product } from "@/types/product";
 import { SheetPreset } from "@/types/sheet";
+import { LabelConfig } from "@/types/label";
 
 import LabelGrid from "./LabelGrid";
 import ProductPicker from "./ProductPicker";
 import ToolBar from "./ToolBar";
-
-export type LabelConfig = {
-  fontSize: "small" | "medium" | "large";
-  layout: "vertical" | "horizontal";
-  showBarcode: boolean;
-};
 
 interface Props {
   preset: SheetPreset;

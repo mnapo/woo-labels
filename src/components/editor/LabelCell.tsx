@@ -4,7 +4,7 @@ import { Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 import { Cell } from "@/types/cell";
-import { LabelConfig } from "./Editor";
+import { LabelConfig } from "@/types/label";
 import Barcode from "./Barcode";
 import CellEditor from "./CellEditor";
 
