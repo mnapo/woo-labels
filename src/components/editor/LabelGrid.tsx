@@ -10,9 +10,14 @@ interface Props {
   cells: Cell[];
   config: LabelConfig;
   onRemove: (id: number) => void;
+  onUpdate: (
+    id: number,
+    customName: string,
+    customPrice: string
+  ) => void;
 }
 
-export default function LabelGrid({ preset, cells, config, onRemove }: Props) {
+export default function LabelGrid({ preset, cells, config, onRemove, onUpdate }: Props) {
   return (
     <div
       className="grid h-full w-full overflow-hidden"
@@ -44,7 +49,7 @@ export default function LabelGrid({ preset, cells, config, onRemove }: Props) {
               </>
             )}
 
-            <LabelCell cell={cell} config={config} onRemove={onRemove} />
+            <LabelCell cell={cell} config={config} onRemove={onRemove} onUpdate={onUpdate} />
           </div>
         );
       })}
