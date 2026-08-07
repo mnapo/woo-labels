@@ -39,7 +39,7 @@ export default function LabelCell({ cell, config, onRemove, onUpdate }: Props) {
 
   return (
     <div className="relative h-full w-full overflow-hidden bg-white">
-      {cell.product && (
+      {cell.product ? (
         <div
           className={`flex h-full w-full items-center justify-center gap-2 p-2 ${
             config.layout === "vertical"
@@ -62,7 +62,7 @@ export default function LabelCell({ cell, config, onRemove, onUpdate }: Props) {
           >
             ${price}
           </span>
-          
+
           {config.showBarcode && cell.product.barcode && (
             <Barcode value={cell.product.barcode} />
           )}
@@ -72,7 +72,9 @@ export default function LabelCell({ cell, config, onRemove, onUpdate }: Props) {
             name={name ?? ""}
             price={price ?? ""}
             onClose={() => setEditing(false)}
-            onSave={(customName, customPrice) => onUpdate(cell.id, customName, customPrice)}
+            onSave={(customName, customPrice) =>
+              onUpdate(cell.id, customName, customPrice)
+            }
           />
 
           <button
