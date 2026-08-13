@@ -1,10 +1,19 @@
 "use client";
 
-import { useState } from "react";
-import { ChevronDown, ChevronUp, Search } from "lucide-react";
+import { useEffect, useState } from "react";
+import {
+  ChevronDown,
+  ChevronUp,
+  Search,
+} from "lucide-react";
 
 import { Product } from "@/types/product";
 import { useProducts } from "@/hooks/useProducts";
+
+interface Category {
+  id: number;
+  name: string;
+}
 
 interface Props {
   onSelect: (product: Product) => void;
@@ -13,9 +22,32 @@ interface Props {
 export default function ProductPicker({ onSelect }: Props) {
   const [query, setQuery] = useState("");
   const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("");
   const [open, setOpen] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
 
-  const { products, loading } = useProducts(search);
+  const { products, loading } = useProducts(
+    search,
+    category
+  );
+
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const response = await fetch("/api/categories");
+
+        if (!response.ok) return;
+
+        const data = await response.json();
+
+        setCategories(data);
+      } catch {
+        setCategories([]);
+      }
+    }
+
+    fetchCategories();
+  }, []);
 
   function handleSelect(product: Product) {
     onSelect(product);
@@ -28,26 +60,55 @@ export default function ProductPicker({ onSelect }: Props) {
 
   return (
     <div className="relative no-print">
-      <button
-        onClick={() => setOpen(value => !value)}
-        className="flex items-center gap-2 rounded-md bg-black px-4 py-2 text-sm text-white hover:bg-gray-800"
-      >
-        + Agregar producto
+      <div className="flex items-center gap-2">
+        <button
+          onClick={() => setOpen(value => !value)}
+          className="flex shrink-0 items-center gap-2 rounded-md bg-black px-4 py-2 text-sm text-white hover:bg-gray-800"
+        >
+          + Agregar producto
 
-        {open ? (
-          <ChevronUp size={16} />
-        ) : (
-          <ChevronDown size={16} />
-        )}
-      </button>
+          {open ? (
+            <ChevronUp size={16} />
+          ) : (
+            <ChevronDown size={16} />
+          )}
+        </button>
+
+        <div className="flex max-w-full gap-2 overflow-x-auto">
+          <button
+            onClick={() => setCategory("")}
+            className={`shrink-0 rounded-full border px-3 py-1 text-xs ${
+              category === ""
+                ? "bg-black text-white"
+                : "bg-white text-gray-700 hover:bg-gray-100"
+            }`}
+          >
+            Todas
+          </button>
+
+          {categories.map(item => (
+            <button
+              key={item.id}
+              onClick={() => setCategory(item.id.toString())}
+              className={`shrink-0 rounded-full border px-3 py-1 text-xs ${
+                category === item.id.toString()
+                  ? "bg-black text-white"
+                  : "bg-white text-gray-700 hover:bg-gray-100"
+              }`}
+            >
+              {item.name}
+            </button>
+          ))}
+        </div>
+      </div>
 
       {open && (
         <div className="absolute left-0 z-20 mt-2 w-72 rounded-md border bg-white p-3 shadow-lg">
           <div className="flex gap-2">
             <input
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onKeyDown={(e) => {
+              onChange={e => setQuery(e.target.value)}
+              onKeyDown={e => {
                 if (e.key === "Enter") {
                   handleSearch();
                 }
