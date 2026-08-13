@@ -23,7 +23,6 @@ export default function ProductPicker({ onSelect }: Props) {
   const [query, setQuery] = useState("");
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
   const [open, setOpen] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
 
@@ -57,12 +56,7 @@ export default function ProductPicker({ onSelect }: Props) {
   }
 
   function handleCategorySelect(value: string) {
-    setSelectedCategory(value);
-    setOpen(true);
-  }
-
-  function handleCategoryApply() {
-    setCategory(selectedCategory);
+    setCategory(value);
     setOpen(true);
   }
 
@@ -87,7 +81,7 @@ export default function ProductPicker({ onSelect }: Props) {
             <button
               onClick={() => handleCategorySelect("")}
               className={`shrink-0 rounded-full border px-3 py-1 text-xs ${
-                selectedCategory === ""
+                category === ""
                   ? "bg-black text-white"
                   : "bg-white text-gray-700 hover:bg-gray-100"
               }`}
@@ -103,7 +97,7 @@ export default function ProductPicker({ onSelect }: Props) {
                   key={item.id}
                   onClick={() => handleCategorySelect(value)}
                   className={`shrink-0 rounded-full border px-3 py-1 text-xs ${
-                    selectedCategory === value
+                    category === value
                       ? "bg-black text-white"
                       : "bg-white text-gray-700 hover:bg-gray-100"
                   }`}
@@ -114,15 +108,6 @@ export default function ProductPicker({ onSelect }: Props) {
             })}
           </div>
         </div>
-      </div>
-
-      <div className="mt-2 flex justify-end">
-        <button
-          onClick={handleCategoryApply}
-          className="rounded bg-black px-4 py-1.5 text-xs text-white hover:bg-gray-800"
-        >
-          Aplicar
-        </button>
       </div>
 
       {open && (
