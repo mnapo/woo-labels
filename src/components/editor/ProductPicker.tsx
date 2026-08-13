@@ -48,7 +48,7 @@ export default function ProductPicker({ onSelect }: Props) {
 
   function handleSelect(product: Product) {
     onSelect(product);
-    setOpen(false);
+    setOpen(true);
   }
 
   function handleSearch() {
