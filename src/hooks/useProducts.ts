@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import { Product } from "@/types/product";
 
 export function useProducts(
-  query = ""
+  query = "",
+  category = ""
 ) {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
@@ -26,6 +28,10 @@ export function useProducts(
           params.set("q", query);
         }
 
+        if (category) {
+          params.set("category", category);
+        }
+
         const response = await fetch(
           `/api/products?${params.toString()}`,
           {
@@ -34,9 +40,7 @@ export function useProducts(
         );
 
         if (!response.ok) {
-          throw new Error(
-            "Failed to fetch products"
-          );
+          throw new Error("Failed to fetch products");
         }
 
         const data = await response.json();
@@ -65,7 +69,7 @@ export function useProducts(
     return () => {
       controller.abort();
     };
-  }, [query]);
+  }, [query, category]);
 
   return {
     products,
