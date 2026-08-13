@@ -23,13 +23,11 @@ export default function ProductPicker({ onSelect }: Props) {
   const [query, setQuery] = useState("");
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [open, setOpen] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
 
-  const { products, loading } = useProducts(
-    search,
-    category
-  );
+  const { products, loading } = useProducts(search, category);
 
   useEffect(() => {
     async function fetchCategories() {
@@ -58,6 +56,10 @@ export default function ProductPicker({ onSelect }: Props) {
     setSearch(query);
   }
 
+  function handleCategoryApply() {
+    setCategory(selectedCategory);
+  }
+
   return (
     <div className="relative no-print">
       <div className="flex items-center gap-2">
@@ -76,9 +78,9 @@ export default function ProductPicker({ onSelect }: Props) {
 
         <div className="flex max-w-full gap-2 overflow-x-auto">
           <button
-            onClick={() => setCategory("")}
+            onClick={() => setSelectedCategory("")}
             className={`shrink-0 rounded-full border px-3 py-1 text-xs ${
-              category === ""
+              selectedCategory === ""
                 ? "bg-black text-white"
                 : "bg-white text-gray-700 hover:bg-gray-100"
             }`}
@@ -89,9 +91,11 @@ export default function ProductPicker({ onSelect }: Props) {
           {categories.map(item => (
             <button
               key={item.id}
-              onClick={() => setCategory(item.id.toString())}
+              onClick={() =>
+                setSelectedCategory(item.id.toString())
+              }
               className={`shrink-0 rounded-full border px-3 py-1 text-xs ${
-                category === item.id.toString()
+                selectedCategory === item.id.toString()
                   ? "bg-black text-white"
                   : "bg-white text-gray-700 hover:bg-gray-100"
               }`}
@@ -100,6 +104,15 @@ export default function ProductPicker({ onSelect }: Props) {
             </button>
           ))}
         </div>
+      </div>
+
+      <div className="mt-2">
+        <button
+          onClick={handleCategoryApply}
+          className="rounded bg-black px-3 py-1 text-xs text-white hover:bg-gray-800"
+        >
+          Aplicar
+        </button>
       </div>
 
       {open && (
