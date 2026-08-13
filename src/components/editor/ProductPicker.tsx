@@ -61,8 +61,8 @@ export default function ProductPicker({ onSelect }: Props) {
   }
 
   return (
-    <div className="relative no-print">
-      <div className="flex items-center gap-2">
+    <div className="relative no-print w-full max-w-4xl">
+      <div className="flex w-full items-center gap-2">
         <button
           onClick={() => setOpen(value => !value)}
           className="flex shrink-0 items-center gap-2 rounded-md bg-black px-4 py-2 text-sm text-white hover:bg-gray-800"
@@ -76,40 +76,42 @@ export default function ProductPicker({ onSelect }: Props) {
           )}
         </button>
 
-        <div className="flex max-w-full gap-2 overflow-x-auto">
-          <button
-            onClick={() => setSelectedCategory("")}
-            className={`shrink-0 rounded-full border px-3 py-1 text-xs ${
-              selectedCategory === ""
-                ? "bg-black text-white"
-                : "bg-white text-gray-700 hover:bg-gray-100"
-            }`}
-          >
-            Todas
-          </button>
-
-          {categories.map(item => (
+        <div className="min-w-0 flex-1 overflow-hidden">
+          <div className="flex gap-2 overflow-x-auto pb-1">
             <button
-              key={item.id}
-              onClick={() =>
-                setSelectedCategory(item.id.toString())
-              }
+              onClick={() => setSelectedCategory("")}
               className={`shrink-0 rounded-full border px-3 py-1 text-xs ${
-                selectedCategory === item.id.toString()
+                selectedCategory === ""
                   ? "bg-black text-white"
                   : "bg-white text-gray-700 hover:bg-gray-100"
               }`}
             >
-              {item.name}
+              Todas
             </button>
-          ))}
+
+            {categories.map(item => (
+              <button
+                key={item.id}
+                onClick={() =>
+                  setSelectedCategory(item.id.toString())
+                }
+                className={`shrink-0 rounded-full border px-3 py-1 text-xs ${
+                  selectedCategory === item.id.toString()
+                    ? "bg-black text-white"
+                    : "bg-white text-gray-700 hover:bg-gray-100"
+                }`}
+              >
+                {item.name}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
-      <div className="mt-2">
+      <div className="mt-2 flex justify-end">
         <button
           onClick={handleCategoryApply}
-          className="rounded bg-black px-3 py-1 text-xs text-white hover:bg-gray-800"
+          className="rounded bg-black px-4 py-1.5 text-xs text-white hover:bg-gray-800"
         >
           Aplicar
         </button>
