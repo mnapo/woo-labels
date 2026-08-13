@@ -56,8 +56,14 @@ export default function ProductPicker({ onSelect }: Props) {
     setSearch(query);
   }
 
+  function handleCategorySelect(value: string) {
+    setSelectedCategory(value);
+    setOpen(true);
+  }
+
   function handleCategoryApply() {
     setCategory(selectedCategory);
+    setOpen(true);
   }
 
   return (
@@ -79,7 +85,7 @@ export default function ProductPicker({ onSelect }: Props) {
         <div className="min-w-0 flex-1 overflow-hidden">
           <div className="flex gap-2 overflow-x-auto pb-1">
             <button
-              onClick={() => setSelectedCategory("")}
+              onClick={() => handleCategorySelect("")}
               className={`shrink-0 rounded-full border px-3 py-1 text-xs ${
                 selectedCategory === ""
                   ? "bg-black text-white"
@@ -89,21 +95,23 @@ export default function ProductPicker({ onSelect }: Props) {
               Todas
             </button>
 
-            {categories.map(item => (
-              <button
-                key={item.id}
-                onClick={() =>
-                  setSelectedCategory(item.id.toString())
-                }
-                className={`shrink-0 rounded-full border px-3 py-1 text-xs ${
-                  selectedCategory === item.id.toString()
-                    ? "bg-black text-white"
-                    : "bg-white text-gray-700 hover:bg-gray-100"
-                }`}
-              >
-                {item.name}
-              </button>
-            ))}
+            {categories.map(item => {
+              const value = item.id.toString();
+
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => handleCategorySelect(value)}
+                  className={`shrink-0 rounded-full border px-3 py-1 text-xs ${
+                    selectedCategory === value
+                      ? "bg-black text-white"
+                      : "bg-white text-gray-700 hover:bg-gray-100"
+                  }`}
+                >
+                  {item.name}
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
