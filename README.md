@@ -34,6 +34,8 @@ Build the application:
 
 ```bash
 pnpm build
+
+Alternatively you can: fork this repo and deploy by yourself in Vercel.
 ```
 
 Start the production server:
