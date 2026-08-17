@@ -39,14 +39,14 @@ export default function LabelCell({
 
   const borderClass = {
     solid: {
-      thin: "border border-gray-200",
-      medium: "border-2 border-gray-200",
-      thick: "border-4 border-gray-200",
+      thin: "border border-black",
+      medium: "border-2 border-black",
+      thick: "border-4 border-black",
     },
     dashed: {
-      thin: "border border-dashed border-gray-200",
-      medium: "border-2 border-dashed border-gray-200",
-      thick: "border-4 border-dashed border-gray-200",
+      thin: "border border-dashed border-black",
+      medium: "border-2 border-dashed border-black",
+      thick: "border-4 border-dashed border-black",
     },
     none: {
       thin: "",
