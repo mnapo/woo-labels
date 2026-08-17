@@ -19,7 +19,12 @@ interface Props {
   ) => void;
 }
 
-export default function LabelCell({ cell, config, onRemove, onUpdate }: Props) {
+export default function LabelCell({
+  cell,
+  config,
+  onRemove,
+  onUpdate,
+}: Props) {
   const fontClass = {
     small: "text-sm",
     medium: "text-base",
@@ -32,13 +37,33 @@ export default function LabelCell({ cell, config, onRemove, onUpdate }: Props) {
     large: "text-2xl",
   }[config.fontSize];
 
+  const borderClass = {
+    solid: {
+      thin: "border border-gray-200",
+      medium: "border-2 border-gray-200",
+      thick: "border-4 border-gray-200",
+    },
+    dashed: {
+      thin: "border border-dashed border-gray-200",
+      medium: "border-2 border-dashed border-gray-200",
+      thick: "border-4 border-dashed border-gray-200",
+    },
+    none: {
+      thin: "",
+      medium: "",
+      thick: "",
+    },
+  }[config.borderStyle][config.borderWidth];
+
   const [editing, setEditing] = useState(false);
 
   const name = cell.customName ?? cell.product?.name;
   const price = cell.customPrice ?? cell.product?.price;
 
   return (
-    <div className="relative h-full w-full overflow-hidden border border-gray-200 bg-white">
+    <div
+      className={`relative h-full w-full overflow-hidden bg-white ${borderClass}`}
+    >
       {cell.product ? (
         <div
           className={`flex h-full w-full items-center justify-center gap-2 p-2 ${
@@ -49,7 +74,9 @@ export default function LabelCell({ cell, config, onRemove, onUpdate }: Props) {
         >
           <span
             className={`break-words text-center font-medium ${
-              config.layout === "horizontal" ? "flex-[0.4]" : ""
+              config.layout === "horizontal"
+                ? "flex-[0.4]"
+                : ""
             } ${fontClass}`}
           >
             {name}
@@ -57,15 +84,18 @@ export default function LabelCell({ cell, config, onRemove, onUpdate }: Props) {
 
           <span
             className={`break-words text-center font-bold text-black ${
-              config.layout === "horizontal" ? "flex-[0.6]" : ""
+              config.layout === "horizontal"
+                ? "flex-[0.6]"
+                : ""
             } ${priceClass}`}
           >
             ${price}
           </span>
 
-          {config.showBarcode && cell.product.barcode && (
-            <Barcode value={cell.product.barcode} />
-          )}
+          {config.showBarcode &&
+            cell.product.barcode && (
+              <Barcode value={cell.product.barcode} />
+            )}
 
           <CellEditor
             open={editing}
@@ -73,7 +103,11 @@ export default function LabelCell({ cell, config, onRemove, onUpdate }: Props) {
             price={price ?? ""}
             onClose={() => setEditing(false)}
             onSave={(customName, customPrice) =>
-              onUpdate(cell.id, customName, customPrice)
+              onUpdate(
+                cell.id,
+                customName,
+                customPrice
+              )
             }
           />
 
