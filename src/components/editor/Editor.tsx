@@ -25,7 +25,7 @@ export default function Editor({ preset, setPreset }: Props) {
     layout: "vertical",
     showBarcode: true,
     borderStyle: "solid",
-    borderWidth: "thin",
+    borderWidth: "thick",
   });
 
   useEffect(() => {
