@@ -82,8 +82,8 @@ function ConfigurationControls({
         <span className="text-sm font-medium">
           Borde
         </span>
-
-        <div className="flex flex-wrap gap-3">
+      
+        <div className="flex flex-nowrap gap-2">
           {[
             ["solid", "Recto"],
             ["dashed", "Punteado"],
@@ -91,15 +91,19 @@ function ConfigurationControls({
           ].map(([value, label]) => (
             <label
               key={value}
-              className="flex items-center gap-1 text-sm"
+              className={`flex shrink-0 items-center gap-1 ${
+                mobile ? "text-sm" : "text-xs"
+              }`}
             >
               <input
                 type="radio"
-                name={mobile ? "mobile-border-style" : "border-style"}
-                value={value}
-                checked={
-                  config.borderStyle === value
+                name={
+                  mobile
+                    ? "mobile-border-style"
+                    : "border-style"
                 }
+                value={value}
+                checked={config.borderStyle === value}
                 onChange={() =>
                   setConfig(current => ({
                     ...current,
