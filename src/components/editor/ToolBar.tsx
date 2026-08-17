@@ -123,7 +123,7 @@ function ConfigurationControls({
           }
           className="text-sm font-medium"
         >
-          Grosor de borde
+          Ancho de borde
         </label>
 
         <input
