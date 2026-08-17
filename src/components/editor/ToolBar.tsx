@@ -225,10 +225,14 @@ export default function ToolBar({
             </div>
 
             <div className="space-y-4">
-              <SheetSelector
-                value={value}
-                onChange={onChange}
-              />
+              <div className="w-full overflow-x-auto">
+                <div className="flex w-max min-w-full">
+                  <SheetSelector
+                    value={value}
+                    onChange={onChange}
+                  />
+                </div>
+              </div>
 
               <ConfigurationControls
                 config={config}
