@@ -16,6 +16,160 @@ interface Props {
   setConfig: Dispatch<SetStateAction<LabelConfig>>;
 }
 
+interface ConfigurationControlsProps {
+  config: LabelConfig;
+  setConfig: Dispatch<SetStateAction<LabelConfig>>;
+  mobile?: boolean;
+}
+
+function ConfigurationControls({
+  config,
+  setConfig,
+  mobile = false,
+}: ConfigurationControlsProps) {
+  const selectClass = mobile
+    ? "w-full rounded border px-3 py-2 text-sm"
+    : "rounded border px-2 py-1 text-sm";
+
+  return (
+    <>
+      <select
+        value={config.fontSize}
+        onChange={e =>
+          setConfig(current => ({
+            ...current,
+            fontSize:
+              e.target.value as LabelConfig["fontSize"],
+          }))
+        }
+        className={selectClass}
+      >
+        <option value="small">Texto pequeño</option>
+        <option value="medium">Texto medio</option>
+        <option value="large">Texto grande</option>
+      </select>
+
+      <select
+        value={config.layout}
+        onChange={e =>
+          setConfig(current => ({
+            ...current,
+            layout:
+              e.target.value as LabelConfig["layout"],
+          }))
+        }
+        className={selectClass}
+      >
+        <option value="vertical">Vertical</option>
+        <option value="horizontal">Horizontal</option>
+      </select>
+
+      <label className="flex items-center gap-2 text-sm">
+        <input
+          type="checkbox"
+          checked={config.showBarcode}
+          onChange={e =>
+            setConfig(current => ({
+              ...current,
+              showBarcode: e.target.checked,
+            }))
+          }
+        />
+        Código de barras
+      </label>
+
+      <div className="space-y-2">
+        <span className="text-sm font-medium">
+          Borde
+        </span>
+
+        <div className="flex flex-wrap gap-3">
+          {[
+            ["solid", "Recto"],
+            ["dashed", "Punteado"],
+            ["none", "Ninguno"],
+          ].map(([value, label]) => (
+            <label
+              key={value}
+              className="flex items-center gap-1 text-sm"
+            >
+              <input
+                type="radio"
+                name={mobile ? "mobile-border-style" : "border-style"}
+                value={value}
+                checked={
+                  config.borderStyle === value
+                }
+                onChange={() =>
+                  setConfig(current => ({
+                    ...current,
+                    borderStyle:
+                      value as LabelConfig["borderStyle"],
+                  }))
+                }
+              />
+              {label}
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <label
+          htmlFor={
+            mobile
+              ? "mobile-border-width"
+              : "border-width"
+          }
+          className="text-sm font-medium"
+        >
+          Grosor de borde
+        </label>
+
+        <input
+          id={
+            mobile
+              ? "mobile-border-width"
+              : "border-width"
+          }
+          type="range"
+          min="0"
+          max="2"
+          step="1"
+          value={
+            config.borderWidth === "thin"
+              ? 0
+              : config.borderWidth === "medium"
+                ? 1
+                : 2
+          }
+          disabled={config.borderStyle === "none"}
+          onChange={e => {
+            const values = [
+              "thin",
+              "medium",
+              "thick",
+            ] as const;
+
+            setConfig(current => ({
+              ...current,
+              borderWidth:
+                values[Number(e.target.value)],
+            }));
+          }}
+          className="w-full disabled:opacity-40"
+        />
+
+        <div className="flex justify-between text-xs text-gray-500">
+          <span>Fino</span>
+          <span>Medio</span>
+          <span>Grueso</span>
+        </div>
+      </div>
+    </>
+  );
+}
+
 export default function ToolBar({
   value,
   onChange,
@@ -28,50 +182,15 @@ export default function ToolBar({
     <>
       <div className="flex w-full items-center justify-between gap-2">
         <div className="hidden items-center gap-2 sm:flex">
-          <SheetSelector value={value} onChange={onChange} />
+          <SheetSelector
+            value={value}
+            onChange={onChange}
+          />
 
-          <select
-            value={config.fontSize}
-            onChange={e =>
-              setConfig(current => ({
-                ...current,
-                fontSize: e.target.value as LabelConfig["fontSize"],
-              }))
-            }
-            className="rounded border px-2 py-1 text-sm"
-          >
-            <option value="small">Texto pequeño</option>
-            <option value="medium">Texto medio</option>
-            <option value="large">Texto grande</option>
-          </select>
-
-          <select
-            value={config.layout}
-            onChange={e =>
-              setConfig(current => ({
-                ...current,
-                layout: e.target.value as LabelConfig["layout"],
-              }))
-            }
-            className="rounded border px-2 py-1 text-sm"
-          >
-            <option value="vertical">Vertical</option>
-            <option value="horizontal">Horizontal</option>
-          </select>
-
-          <label className="flex items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              checked={config.showBarcode}
-              onChange={e =>
-                setConfig(current => ({
-                  ...current,
-                  showBarcode: e.target.checked,
-                }))
-              }
-            />
-            Código de barras
-          </label>
+          <ConfigurationControls
+            config={config}
+            setConfig={setConfig}
+          />
         </div>
 
         <button
@@ -89,7 +208,9 @@ export default function ToolBar({
         <div className="fixed inset-0 z-50 flex min-h-screen items-center justify-center bg-black/40 p-4 sm:hidden">
           <div className="w-full max-w-sm rounded-lg bg-white p-4 shadow-xl">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="font-medium">Configurar hoja</h2>
+              <h2 className="font-medium">
+                Configurar hoja
+              </h2>
 
               <button
                 onClick={() => setOpen(false)}
@@ -105,48 +226,11 @@ export default function ToolBar({
                 onChange={onChange}
               />
 
-              <select
-                value={config.fontSize}
-                onChange={e =>
-                  setConfig(current => ({
-                    ...current,
-                    fontSize: e.target.value as LabelConfig["fontSize"],
-                  }))
-                }
-                className="w-full rounded border px-3 py-2 text-sm"
-              >
-                <option value="small">Texto pequeño</option>
-                <option value="medium">Texto medio</option>
-                <option value="large">Texto grande</option>
-              </select>
-
-              <select
-                value={config.layout}
-                onChange={e =>
-                  setConfig(current => ({
-                    ...current,
-                    layout: e.target.value as LabelConfig["layout"],
-                  }))
-                }
-                className="w-full rounded border px-3 py-2 text-sm"
-              >
-                <option value="vertical">Vertical</option>
-                <option value="horizontal">Horizontal</option>
-              </select>
-
-              <label className="flex items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={config.showBarcode}
-                  onChange={e =>
-                    setConfig(current => ({
-                      ...current,
-                      showBarcode: e.target.checked,
-                    }))
-                  }
-                />
-                Código de barras
-              </label>
+              <ConfigurationControls
+                config={config}
+                setConfig={setConfig}
+                mobile
+              />
 
               <button
                 onClick={() => setOpen(false)}
