@@ -2,6 +2,12 @@ import { SheetPreset } from "@/types/sheet";
 
 export const SHEET_PRESETS: SheetPreset[] = [
   {
+    id: "5x2",
+    name: "5 x 2",
+    rows: 5,
+    cols: 2,
+  },
+  {
     id: "6x2",
     name: "6 x 2",
     rows: 6,
