@@ -47,19 +47,30 @@ export async function getWooProducts(
     params.set("category", category);
   }
 
-  const response = await fetch(
-    `${url}/wp-json/wc/v3/products?${params.toString()}`,
-    {
-      headers: {
-        Authorization: `Basic ${credentials}`,
-      },
-      cache: "no-store",
-    }
-  );
+const endpoint = `${url}/wp-json/wc/v3/products?${params.toString()}`;
 
-  if (!response.ok) {
-    throw new Error(`WooCommerce error: ${response.status}`);
-  }
+console.log("WooCommerce endpoint:", endpoint);
+
+const response = await fetch(endpoint, {
+  headers: {
+    Authorization: `Basic ${credentials}`,
+  },
+  cache: "no-store",
+});
+
+console.log("WooCommerce status:", response.status);
+console.log(
+  "WooCommerce response headers:",
+  Object.fromEntries(response.headers.entries())
+);
+
+if (!response.ok) {
+  const body = await response.text();
+
+  console.log("WooCommerce response body:", body);
+
+  throw new Error(`WooCommerce error: ${response.status}`);
+}
 
   const products = await response.json();
 
