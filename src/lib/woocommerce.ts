@@ -44,21 +44,18 @@ export async function getWooProducts(
   }
 
   const response = await fetch(
-    `${baseUrl}/wp-json/woo-labels/v1/products?${params.toString()}`,
+    "https://nextcell.com.ar/wp-json/woo-labels/v1/ping",
     {
       cache: "no-store",
     }
   );
-
-  if (!response.ok) {
-    const body = await response.text();
-
-    throw new Error(
-      `WooCommerce error: ${response.status}${
-        body ? `: ${body}` : ""
-      }`
-    );
-  }
+  
+  const text = await response.text();
+  
+  return Response.json({
+    status: response.status,
+    body: text,
+  });
 
   const products: WooProductResponse[] =
     await response.json();
