@@ -2,7 +2,9 @@ type WooProductResponse = {
   id: number;
   name: string;
   price: string;
+  sku?: string;
   barcode?: string;
+  global_unique_id?: string;
 };
 
 type WooCategoryResponse = {
@@ -10,109 +12,93 @@ type WooCategoryResponse = {
   name: string;
 };
 
-function getWooCredentials() {
+function getWooUrl() {
   const url = process.env.WOOCOMMERCE_URL;
-  const consumerKey = process.env.WOOCOMMERCE_CONSUMER_KEY;
-  const consumerSecret = process.env.WOOCOMMERCE_CONSUMER_SECRET;
 
-  if (!url || !consumerKey || !consumerSecret) {
-    throw new Error("WooCommerce environment variables are missing");
+  if (!url) {
+    throw new Error(
+      "WOOCOMMERCE_URL environment variable is missing"
+    );
   }
 
-  return {
-    url,
-    credentials: Buffer.from(
-      `${consumerKey}:${consumerSecret}`
-    ).toString("base64"),
-  };
+  return url.replace(/\/$/, "");
 }
 
 export async function getWooProducts(
   query = "",
   limit = 10,
   category = ""
-): Promise<WooProductResponse[]> {
-  const { url, credentials } = getWooCredentials();
+) {
+  const baseUrl = getWooUrl();
 
   const params = new URLSearchParams({
-    per_page: limit.toString(),
-    page: "1",
+    limit: String(Math.min(Math.max(limit, 1), 100)),
   });
 
   if (query) {
-    params.set("search", query);
+    params.set("q", query);
   }
 
   if (category) {
     params.set("category", category);
   }
 
-const endpoint = `${url}/wp-json/wc/v3/products?${params.toString()}`;
+  const response = await fetch(
+    `${baseUrl}/wp-json/woo-labels/v1/products?${params.toString()}`,
+    {
+      cache: "no-store",
+    }
+  );
 
-console.log("WooCommerce endpoint:", endpoint);
+  if (!response.ok) {
+    const body = await response.text();
 
-const response = await fetch(endpoint, {
-  headers: {
-    Authorization: `Basic ${credentials}`,
-  },
-  cache: "no-store",
-});
+    throw new Error(
+      `WooCommerce error: ${response.status}${
+        body ? `: ${body}` : ""
+      }`
+    );
+  }
 
-console.log("WooCommerce status:", response.status);
-console.log(
-  "WooCommerce response headers:",
-  Object.fromEntries(response.headers.entries())
-);
+  const products: WooProductResponse[] =
+    await response.json();
 
-if (!response.ok) {
-  const body = await response.text();
-
-  console.log("WooCommerce response body:", body);
-
-  throw new Error(`WooCommerce error: ${response.status}`);
-}
-
-  const products = await response.json();
-
-  return products.map((product: any) => ({
+  return products.map((product) => ({
     id: product.id,
     name: product.name,
     price: product.price,
     barcode:
+      product.barcode ||
       product.sku ||
       product.global_unique_id ||
       undefined,
   }));
 }
 
-export async function getWooCategories(): Promise<
-  WooCategoryResponse[]
-> {
-  const { url, credentials } = getWooCredentials();
-
-  const params = new URLSearchParams({
-    per_page: "100",
-    page: "1",
-    hide_empty: "true",
-  });
+export async function getWooCategories() {
+  const baseUrl = getWooUrl();
 
   const response = await fetch(
-    `${url}/wp-json/wc/v3/products/categories?${params.toString()}`,
+    `${baseUrl}/wp-json/woo-labels/v1/categories`,
     {
-      headers: {
-        Authorization: `Basic ${credentials}`,
-      },
       cache: "no-store",
     }
   );
 
   if (!response.ok) {
-    throw new Error(`WooCommerce error: ${response.status}`);
+    const body = await response.text();
+
+    throw new Error(
+      `WooCommerce error: ${response.status}${
+        body ? `: ${body}` : ""
+      }`
+    );
   }
 
-  const categories = await response.json();
+  const categories: WooCategoryResponse[] =
+    await response.json();
 
-  return categories.map((category: any) => ({
+  return categories.map((category) => ({
     id: category.id,
     name: category.name,
   }));
