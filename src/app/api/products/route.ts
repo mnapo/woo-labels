@@ -1,31 +1,23 @@
-import { NextResponse } from "next/server";
+export async function GET() {
+  const response = await fetch(
+    "https://nextcell.com.ar/wp-json/woo-labels/v1/ping",
+    {
+      cache: "no-store",
+    }
+  );
 
-import { getWooProducts } from "@/lib/woocommerce";
+  const text = await response.text();
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-
-  const query = searchParams.get("q") ?? "";
-  const category = searchParams.get("category") ?? "";
-  const limit = Number(searchParams.get("limit") ?? "10");
-
-  try {
-    const products = await getWooProducts(
-      query,
-      limit,
-      category
-    );
-
-    return NextResponse.json(products);
-  } catch (error) {
-    return NextResponse.json(
-      {
-        message:
-          error instanceof Error
-            ? error.message
-            : "Unknown error",
+  return new Response(
+    JSON.stringify({
+      status: response.status,
+      body: text,
+    }),
+    {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
       },
-      { status: 500 }
-    );
-  }
+    }
+  );
 }
