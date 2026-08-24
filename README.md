@@ -6,13 +6,15 @@ The application allows users to load products from WooCommerce, assign them to l
 
 ## Installation
 
-Install dependencies:
+- Install dependencies:
 
 ```bash
 pnpm install
 ```
 
-Configure environment variables:
+- Create new API client: go to wordpress Panel Admin -> Woocommerce -> Settings -> Advanced -> API Rest -> Create new keys -> select reading only and copy API consumer and secret
+
+- Configure environment variables:
 
 ```env
 NEXT_PUBLIC_STORE_NAME="Woo Labels"
